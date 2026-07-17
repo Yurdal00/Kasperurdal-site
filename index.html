@@ -42,19 +42,35 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:n
 #blackout.out{opacity:0;visibility:hidden}
 #blackout .bo-name{font-variation-settings:'wdth' 125,'wght' 860;text-transform:uppercase;font-size:clamp(15px,2.4vw,22px);letter-spacing:.3em;color:color-mix(in srgb,var(--text) calc(18% + var(--lift,0)*82%),transparent);transition:color .1s linear;text-align:center;padding:0 20px}
 #blackout .bo-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 50% 46%,var(--glow),transparent 70%);opacity:var(--lift,0);transition:opacity .2s}
-#blackout .fader-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#5E574D;margin-top:8px}
-.fader{display:flex;flex-direction:column;align-items:center;gap:28px;z-index:2}
-.fader label{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:#5E574D}
-.fader-v{position:relative;height:280px;width:92px;display:grid;place-items:center}
-.fader-v .mark{position:absolute;left:50%;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#4A443C;translate:-50% 0;font-weight:500}
-.fader-v .mark.top{top:-28px}
-.fader-v .mark.bot{bottom:-28px}
-.fader-v .ticks{position:absolute;top:8px;bottom:8px;left:calc(50% + 20px);width:12px;background:repeating-linear-gradient(to bottom,#3A342B 0,#3A342B 2px,transparent 2px,transparent 28px)}
-.fader-v .ticks.l{left:auto;right:calc(50% + 20px)}
-.fader input{-webkit-appearance:none;appearance:none;width:280px;height:4px;background:linear-gradient(90deg,#4A3F35,#3A342B);outline:none;cursor:grab;transform:rotate(-90deg);border-radius:2px}
+.fader-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:28px}
+.fader-hint{position:absolute;right:-180px;top:50%;translate:0 -50%;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.fader-hint::after{content:"";width:40px;height:1px;background:var(--muted)}
+.fader{display:flex;flex-direction:column;align-items:center;gap:18px}
+.fader label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--meta)}
+.fader-v{position:relative;height:280px;width:92px;display:flex;flex-direction:column;align-items:center}
+.fader-v .mark{position:absolute;left:-32px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#4A443C;font-weight:500;width:28px;text-align:right}
+.fader-v .mark.top{top:0}
+.fader-v .mark.bot{bottom:0}
+.fader-v .rail{position:absolute;top:0;bottom:0;left:50%;width:32px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;justify-content:center;pointer-events:none}
+.fader-v .rail span{width:2px;height:2px;background:#3A342B;border-radius:50%}
+.fader-v .rail span:nth-child(1){margin-top:-268px}
+.fader-v .rail span:nth-child(2){margin-top:-240px}
+.fader-v .rail span:nth-child(3){margin-top:-212px}
+.fader-v .rail span:nth-child(4){margin-top:-184px}
+.fader-v .rail span:nth-child(5){margin-top:-156px}
+.fader-v .rail span:nth-child(6){margin-top:-128px}
+.fader-v .rail span:nth-child(7){margin-top:-100px}
+.fader-v .rail span:nth-child(8){margin-top:-72px}
+.fader-v .rail span:nth-child(9){margin-top:-44px}
+.fader-v .rail span:nth-child(10){margin-top:-16px}
+.fader-v .rail span:nth-child(11){margin-top:12px}
+.fader-v .rail span:nth-child(12){margin-top:40px}
+.fader-v .rail span:nth-child(13){margin-top:68px}
+.fader-v .rail span:nth-child(14){margin-top:96px}
+.fader input{-webkit-appearance:none;appearance:none;width:280px;height:4px;background:linear-gradient(90deg,#4A3F35,#3A342B);outline:none;cursor:grab;transform:rotate(-90deg);transform-origin:center;border-radius:2px;position:absolute;top:50%;left:50%;margin:0;padding:0}
 .fader input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:52px;border-radius:4px;background:linear-gradient(90deg,#E8E2D8 0 40%,#2A241A 40% 60%,#E8E2D8 60% 100%);border:1px solid #0A0908;cursor:grab;box-shadow:0 0 32px 6px var(--glow)}
-.fader input::-moz-range-thumb{width:22px;height:52px;border-radius:4px;border:1px solid #0A0908;cursor:grab;background:linear-gradient(90deg,#E8E2D8 0 40%,#2A241A 40% 60%,#E8E2D8 60% 100%)}
-.fader .skip{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#4A443C;transition:color .2s}
+.fader input::-moz-range-thumb{width:22px;height:52px;border-radius:4px;border:1px solid #0A0908;cursor:grab;background:linear-gradient(90deg,#E8E2D8 0 40%,#2A241A 40% 60%,#E8E2D8 60% 100%);box-shadow:0 0 32px 6px var(--glow)}
+.fader .skip{position:fixed;bottom:clamp(16px,3vh,32px);right:clamp(16px,3vw,40px);z-index:201;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4A443C;transition:color .2s;background:rgba(10,8,6,.6);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:99px;padding:11px 18px}
 .fader .skip:hover{color:var(--muted)}
 nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);height:62px;background:linear-gradient(rgba(5,4,3,.82),rgba(5,4,3,0));transition:background .3s}
 nav.solid{background:rgba(5,4,3,.92);backdrop-filter:blur(12px)}
@@ -90,8 +106,8 @@ nav.solid{background:rgba(5,4,3,.92);backdrop-filter:blur(12px)}
 .hero .dn::after{content:"";width:1px;height:40px;background:linear-gradient(var(--meta),transparent)}
 .scene{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:80px clamp(16px,4vw,48px) clamp(56px,8vh,80px);scroll-snap-align:start;overflow:hidden;cursor:pointer;border-top:1px solid var(--line)}
 .scene-bg{position:absolute;inset:0;z-index:-1;background:var(--panel)}
-.scene-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(1.02);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),filter .5s;animation:imgFade .5s ease-out}
-@keyframes imgFade{from{opacity:0}to{opacity:1}}
+.scene-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(1.02);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),filter .5s;opacity:0}
+.scene-bg img.loaded{opacity:1}
 .scene:hover .scene-bg img{transform:scale(1.035);filter:brightness(.7) saturate(1.05)}
 .scene-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,4,3,.88) 0%,rgba(5,4,3,.15) 45%,rgba(5,4,3,.5) 100%)}
 .scene-bg.noimg{background:linear-gradient(135deg,rgba(255,175,94,.08) 0%,rgba(255,175,94,.04) 50%,rgba(120,170,255,.08) 100%),var(--panel)!important}
@@ -170,8 +186,8 @@ footer a:hover,footer a:active{color:var(--text)}
 .lb-ext:hover{background:var(--accent)}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}h1 .row span{transform:none}.reveal{opacity:1;transform:none}html{scroll-behavior:auto;scroll-snap-type:none}#blackout{display:none}}
-@media(max-width:640px){.hero-foot{flex-direction:column;align-items:flex-start}.cs-cols{font-size:8.5px}.row{font-size:13px}.fader-v{height:240px}.fader input{width:240px}.fader-v .mark.top{top:-24px}.fader-v .mark.bot{bottom:-24px}.fact dd{font-size:12px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto;scroll-snap-type:none}#blackout{display:none}}
+@media(max-width:640px){.hero-foot{flex-direction:column;align-items:flex-start}.cs-cols{font-size:8.5px}.row{font-size:13px}.fader-hint{display:none}.fact dd{font-size:12px}}
 </style>
 </head>
 <body>
@@ -203,18 +219,21 @@ footer a:hover,footer a:active{color:var(--text)}
 <div id="blackout" style="--lift:0">
   <div class="bo-glow"></div>
   <p class="bo-name">Kasper Urdal — Gaffer</p>
-  <div class="fader">
-    <label for="lift">Bring up the lights</label>
-    <div class="fader-v">
-      <span class="mark top">Full</span>
-      <span class="ticks l" aria-hidden="true"></span>
-      <input type="range" id="lift" min="0" max="100" value="0" aria-label="Bring up the lights" aria-orientation="vertical">
-      <span class="ticks" aria-hidden="true"></span>
-      <span class="mark bot">Out</span>
+  <div class="fader-wrap">
+    <div class="fader-hint">Master Fader →</div>
+    <div class="fader">
+      <label for="lift">Bring up the lights</label>
+      <div class="fader-v">
+        <span class="mark top">Full</span>
+        <div class="rail">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <input type="range" id="lift" min="0" max="100" value="0" aria-label="Bring up the lights" aria-orientation="vertical">
+        <span class="mark bot">Out</span>
+      </div>
     </div>
-    <button class="skip" id="skip">Skip →</button>
-    <span class="fader-label">Master Fader</span>
   </div>
+  <button class="skip" id="skip">Skip ↓</button>
 </div>
 <header class="hero" id="top">
   <p class="slate"><span><b>KU</b> — Light Dept.</span><span>Gaffer</span><span>Amsterdam, NL</span><span>Roll 2023–26</span></p>
@@ -303,13 +322,12 @@ kIn.addEventListener('input',applyKelvin);
 applyKelvin();
 const scWrap=document.getElementById('scenes');
 const featured=P.map((p,i)=>({p,i})).filter(o=>o.p.feat);
-featured.forEach((o,n)=>{const {p,i}=o;const urls=coverURL(p);const sec=document.createElement('section');sec.className='scene';sec.id=n===0?'work':undefined;sec.dataset.n=n+1;sec.setAttribute('role','button');sec.tabIndex=0;sec.innerHTML=`<div class="scene-bg ${urls?'':'noimg'}">${urls?`<img loading="lazy" src="${urls[0]}" data-alt="${urls[1]||''}" alt="" onload="this.parentElement.style.opacity='1'" onerror="imgFallback(this)">`:''}</div><p class="slate"><span><b>Scene ${String(n+1).padStart(2,'0')}</b></span><span>Take ${p.y}</span><span>${p.cl}</span><span>Gaffer — K. Urdal</span></p><h2>${p.st}<br>${p.sub}</h2><p class="credit">Tap to roll ▸</p><span class="playhint">Play</span>`;sec.addEventListener('click',()=>openLB(i));sec.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i)}});scWrap.appendChild(sec)});
-function imgFallback(img){const alt=img.dataset.alt;if(alt&&!img.dataset.retried){img.dataset.retried='1';img.src=alt;return;}const bg=img.closest('.scene-bg');if(bg){bg.classList.add('noimg');img.style.display='none'}setTimeout(()=>{if(!bg.querySelector('img:not([style*="display: none"])')){bg.classList.add('noimg')}},3000)}
+featured.forEach((o,n)=>{const {p,i}=o;const urls=coverURL(p);const sec=document.createElement('section');sec.className='scene';sec.id=n===0?'work':undefined;sec.dataset.n=n+1;sec.setAttribute('role','button');sec.tabIndex=0;const bgDiv=document.createElement('div');bgDiv.className=`scene-bg ${urls?'':'noimg'}`;if(urls){const img=document.createElement('img');img.loading='lazy';img.src=urls[0];img.alt='';const loader=setTimeout(()=>{if(!img.classList.contains('loaded')){bgDiv.classList.add('noimg');img.style.opacity='0'}},2500);img.onload=()=>{clearTimeout(loader);img.classList.add('loaded');loader=null};img.onerror=()=>{clearTimeout(loader);if(urls[1]){img.src=urls[1];img.onerror=()=>{bgDiv.classList.add('noimg');img.style.opacity='0'}}else{bgDiv.classList.add('noimg');img.style.opacity='0'}};bgDiv.appendChild(img)}sec.appendChild(bgDiv);sec.innerHTML+=`<p class="slate"><span><b>Scene ${String(n+1).padStart(2,'0')}</b></span><span>Take ${p.y}</span><span>${p.cl}</span><span>Gaffer — K. Urdal</span></p><h2>${p.st}<br>${p.sub}</h2><p class="credit">Tap to roll ▸</p><span class="playhint">Play</span>`;sec.addEventListener('click',()=>openLB(i));sec.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i)}});scWrap.appendChild(sec)});
 const counter=document.getElementById('counter'),cN=document.getElementById('cN');
 const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){counter.classList.add('on');cN.textContent=String(e.target.dataset.n).padStart(2,'0')}});if(!es.some(e=>e.isIntersecting)&&![...document.querySelectorAll('.scene')].some(s=>{const r=s.getBoundingClientRect();return r.top<innerHeight*.5&&r.bottom>innerHeight*.5}))counter.classList.remove('on')},{threshold:.55});
 document.querySelectorAll('.scene').forEach(s=>sio.observe(s));
 const rows=document.getElementById('rows'),peek=document.getElementById('peek');
-P.forEach((p,i)=>{const r=document.createElement('button');r.className='row reveal';r.innerHTML=`<span class="rn">${String(i+1).padStart(2,'0')}</span><span class="rt">${p.t}</span><span class="rtype">${p.cl}</span><span class="ry">${p.y}</span><span class="rplay">▸ Roll</span>`;r.addEventListener('click',()=>openLB(i));const urls=coverURL(p);if(urls&&matchMedia('(hover:hover)').matches){r.addEventListener('mouseenter',()=>{peek.innerHTML=`<img src="${urls[0]}" data-alt="${urls[1]||''}" alt="" onerror="imgFallback(this)">`;peek.classList.add('on')});r.addEventListener('mouseleave',()=>{peek.classList.remove('on');peek.innerHTML=''})}rows.appendChild(r)});
+P.forEach((p,i)=>{const r=document.createElement('button');r.className='row reveal';r.innerHTML=`<span class="rn">${String(i+1).padStart(2,'0')}</span><span class="rt">${p.t}</span><span class="rtype">${p.cl}</span><span class="ry">${p.y}</span><span class="rplay">▸ Roll</span>`;r.addEventListener('click',()=>openLB(i));const urls=coverURL(p);if(urls&&matchMedia('(hover:hover)').matches){r.addEventListener('mouseenter',()=>{const img=document.createElement('img');img.src=urls[0];img.onload=()=>{peek.innerHTML='';peek.appendChild(img);peek.classList.add('on')};img.onerror=()=>{if(urls[1]){img.src=urls[1]}else{peek.classList.remove('on')}}});r.addEventListener('mouseleave',()=>{peek.classList.remove('on');peek.innerHTML=''})}rows.appendChild(r)});
 addEventListener('pointermove',e=>{if(!peek.classList.contains('on'))return;const w=peek.offsetWidth,h=peek.offsetHeight;peek.style.left=Math.min(innerWidth-w-16,e.clientX+22)+'px';peek.style.top=Math.min(innerHeight-h-16,e.clientY-h/2)+'px'},{passive:true});
 const lb=document.getElementById('lb'),lbM=document.getElementById('lb-media');
 function embed(s){if(s.k==='yt')return `<div class="frame"><iframe src="https://www.youtube.com/embed/${s.id}?autoplay=1&rel=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="video"></iframe></div>`;if(s.k==='vimeo')return `<div class="frame"><iframe src="https://player.vimeo.com/video/${s.id}?autoplay=1&badge=0${s.loop?'&loop=1':''}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="video"></iframe></div>`;if(s.k==='adobe')return `<div class="frame"><iframe src="https://www-ccv.adobe.io/v1/player/ccv/${s.id}/embed?bgcolor=%23050403&api_key=BehancePro2View" allow="autoplay; fullscreen" allowfullscreen title="video"></iframe></div>`;return ''}
