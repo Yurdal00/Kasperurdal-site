@@ -43,8 +43,8 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:n
 #blackout .bo-name{font-variation-settings:'wdth' 125,'wght' 860;text-transform:uppercase;font-size:clamp(15px,2.4vw,22px);letter-spacing:.3em;color:color-mix(in srgb,var(--text) calc(18% + var(--lift,0)*82%),transparent);transition:color .1s linear;text-align:center;padding:0 20px}
 #blackout .bo-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 50% 46%,var(--glow),transparent 70%);opacity:var(--lift,0);transition:opacity .2s}
 .fader-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:28px}
-.fader-hint{position:absolute;right:-180px;top:50%;translate:0 -50%;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.fader-hint::after{content:"";width:40px;height:1px;background:var(--muted)}
+.fader-hint{position:absolute;right:-200px;top:50%;translate:0 -50%;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.fader-hint::before{content:"";width:40px;height:1px;background:var(--muted);order:-1}
 .fader{display:flex;flex-direction:column;align-items:center;gap:18px}
 .fader label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--meta)}
 .fader-v{position:relative;height:280px;width:92px;display:flex;flex-direction:column;align-items:center}
@@ -70,7 +70,7 @@ em.s{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:n
 .fader input{-webkit-appearance:none;appearance:none;width:280px;height:4px;background:linear-gradient(90deg,#4A3F35,#3A342B);outline:none;cursor:grab;transform:rotate(-90deg);transform-origin:center;border-radius:2px;position:absolute;top:50%;left:50%;margin:0;padding:0}
 .fader input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:52px;border-radius:4px;background:linear-gradient(90deg,#E8E2D8 0 40%,#2A241A 40% 60%,#E8E2D8 60% 100%);border:1px solid #0A0908;cursor:grab;box-shadow:0 0 32px 6px var(--glow)}
 .fader input::-moz-range-thumb{width:22px;height:52px;border-radius:4px;border:1px solid #0A0908;cursor:grab;background:linear-gradient(90deg,#E8E2D8 0 40%,#2A241A 40% 60%,#E8E2D8 60% 100%);box-shadow:0 0 32px 6px var(--glow)}
-.fader .skip{position:fixed;bottom:clamp(16px,3vh,32px);right:clamp(16px,3vw,40px);z-index:201;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4A443C;transition:color .2s;background:rgba(10,8,6,.6);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:99px;padding:11px 18px}
+.fader .skip{position:fixed;bottom:clamp(16px,3vh,32px);right:clamp(16px,3vw,40px);z-index:201;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#4A443C;transition:color .2s;background:rgba(10,8,6,.6);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:99px;padding:11px 18px;cursor:pointer}
 .fader .skip:hover{color:var(--muted)}
 nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);height:62px;background:linear-gradient(rgba(5,4,3,.82),rgba(5,4,3,0));transition:background .3s}
 nav.solid{background:rgba(5,4,3,.92);backdrop-filter:blur(12px)}
@@ -220,9 +220,9 @@ footer a:hover,footer a:active{color:var(--text)}
   <div class="bo-glow"></div>
   <p class="bo-name">Kasper Urdal — Gaffer</p>
   <div class="fader-wrap">
-    <div class="fader-hint">Master Fader →</div>
+    <div class="fader-hint">← Bring up the lights</div>
     <div class="fader">
-      <label for="lift">Bring up the lights</label>
+      <label for="lift">Master Fader</label>
       <div class="fader-v">
         <span class="mark top">Full</span>
         <div class="rail">
@@ -322,7 +322,7 @@ kIn.addEventListener('input',applyKelvin);
 applyKelvin();
 const scWrap=document.getElementById('scenes');
 const featured=P.map((p,i)=>({p,i})).filter(o=>o.p.feat);
-featured.forEach((o,n)=>{const {p,i}=o;const urls=coverURL(p);const sec=document.createElement('section');sec.className='scene';sec.id=n===0?'work':undefined;sec.dataset.n=n+1;sec.setAttribute('role','button');sec.tabIndex=0;const bgDiv=document.createElement('div');bgDiv.className=`scene-bg ${urls?'':'noimg'}`;if(urls){const img=document.createElement('img');img.loading='lazy';img.src=urls[0];img.alt='';const loader=setTimeout(()=>{if(!img.classList.contains('loaded')){bgDiv.classList.add('noimg');img.style.opacity='0'}},2500);img.onload=()=>{clearTimeout(loader);img.classList.add('loaded');loader=null};img.onerror=()=>{clearTimeout(loader);if(urls[1]){img.src=urls[1];img.onerror=()=>{bgDiv.classList.add('noimg');img.style.opacity='0'}}else{bgDiv.classList.add('noimg');img.style.opacity='0'}};bgDiv.appendChild(img)}sec.appendChild(bgDiv);sec.innerHTML+=`<p class="slate"><span><b>Scene ${String(n+1).padStart(2,'0')}</b></span><span>Take ${p.y}</span><span>${p.cl}</span><span>Gaffer — K. Urdal</span></p><h2>${p.st}<br>${p.sub}</h2><p class="credit">Tap to roll ▸</p><span class="playhint">Play</span>`;sec.addEventListener('click',()=>openLB(i));sec.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i)}});scWrap.appendChild(sec)});
+featured.forEach((o,n)=>{const {p,i}=o;const urls=coverURL(p);const sec=document.createElement('section');sec.className='scene';if(n===0)sec.id='work';sec.dataset.n=n+1;sec.setAttribute('role','button');sec.tabIndex=0;const bgDiv=document.createElement('div');bgDiv.className=`scene-bg ${urls?'':'noimg'}`;if(urls){const img=document.createElement('img');img.loading='lazy';img.alt='';bgDiv.appendChild(img);const timeoutId=setTimeout(()=>{if(!img.classList.contains('loaded')){bgDiv.classList.add('noimg')}},2500);img.onload=()=>{clearTimeout(timeoutId);img.classList.add('loaded');img.src=urls[0]};img.onerror=()=>{clearTimeout(timeoutId);if(urls[1]){img.src=urls[1];img.onerror=()=>{bgDiv.classList.add('noimg')}}else{bgDiv.classList.add('noimg')}};img.src=urls[0]}sec.appendChild(bgDiv);const content=document.createElement('div');content.innerHTML=`<p class="slate"><span><b>Scene ${String(n+1).padStart(2,'0')}</b></span><span>Take ${p.y}</span><span>${p.cl}</span><span>Gaffer — K. Urdal</span></p><h2>${p.st}<br>${p.sub}</h2><p class="credit">Tap to roll ▸</p><span class="playhint">Play</span>`;while(content.firstChild)sec.appendChild(content.firstChild);sec.addEventListener('click',()=>openLB(i));sec.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(i)}});scWrap.appendChild(sec)});
 const counter=document.getElementById('counter'),cN=document.getElementById('cN');
 const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){counter.classList.add('on');cN.textContent=String(e.target.dataset.n).padStart(2,'0')}});if(!es.some(e=>e.isIntersecting)&&![...document.querySelectorAll('.scene')].some(s=>{const r=s.getBoundingClientRect();return r.top<innerHeight*.5&&r.bottom>innerHeight*.5}))counter.classList.remove('on')},{threshold:.55});
 document.querySelectorAll('.scene').forEach(s=>sio.observe(s));
